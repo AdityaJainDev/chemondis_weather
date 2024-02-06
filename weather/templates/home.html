@@ -1,0 +1,85 @@
+{% extends '_base.html' %}
+{% block title %}CheMondis Weather API{% endblock %}
+
+{% block content %}
+<section class="vh-50">
+    <div class="container py-5 h-100">
+
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-8 col-lg-6 col-xl-4">
+
+                <h3 class="mb-4 pb-2 fw-normal">Check the weather forecast!</h3>
+
+                <form method="post" action="{% url 'weather:home' %}">
+                    {% csrf_token %}
+                    <div class="input-group rounded mb-3">
+                        <select class="form-select" aria-label="Select Language" name="lang" id="id_lang">
+                            <option value="en" selected>English</option>
+                            <option value="de">German</option>
+                            <option value="fr">French</option>
+                        </select>
+                        <label for="id_lang" class="input-group-text border-0 fw-bold">Language</label>
+                    </div>
+                    <div class="input-group rounded mb-3">
+                        <input type="text" name="city" class="form-control rounded input" placeholder="City Name"
+                            required id="id_city" />
+                        <input type="submit" class="input-group-text border-0 fw-bold" id="search-addon"></input>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% if data %}
+<section class="vh-0">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-8 col-lg-6 col-xl-4">
+                <div class="card" style="color: #4B515D; border-radius: 35px;">
+                    <div class="card-body p-4">
+
+                        <div class="d-flex">
+                            <h6 class="flex-grow-1">{{data.city_name}}, {{data.country}}</h6>
+                            <h6>{{data.time}}</h6>
+                        </div>
+
+                        <div class="d-flex flex-column text-center mt-3 mb-4">
+                            <h6 class="display-4 mb-0 font-weight-bold" style="color: #1C2331;">
+                                {{data.temp|floatformat:"0"}}°C </h6>
+                            <span class="small" style="color: #868B94">{{data.description|capfirst}}</span>
+                            <span class="small" style="color: #868B94"><i class="fas fa-temperature-high"></i>
+                                {{data.max_temp|floatformat:"0"}}°C |
+                                {{data.min_temp|floatformat:"0"}}°C <i class="fas fa-temperature-low"></i></span>
+                        </div>
+
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1" style="font-size: 1rem;">
+                                <div><i class="fa-sharp fa-regular fa-gauge fa-fw" style="color: #868B94;"></i> <span
+                                        class="ms-1">
+                                        {{data.pressure}} hPa </span></div>
+                                <div><i class="fas fa-humidity fa-fw" style="color: #868B94;"></i> <span class="ms-1">
+                                        {{data.humidity}}% </span></div>
+                            </div>
+                            <div>
+                                <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i> <span class="ms-1">
+                                        {{data.wind_speed|floatformat:"0"}} km/h </span></div>
+                                <div><i class="fas fa-compass fa-fw" style="color: #868B94;"></i> <span class="ms-1">
+                                        {{data.direction}} </span></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endif %}
+
+
+{% endblock %}

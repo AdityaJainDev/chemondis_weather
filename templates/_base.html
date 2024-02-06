@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <script src="{% static 'js/app.js' %}"></script>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/all.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-thin.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-solid.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-regular.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-light.css">
+</head>
+
+<body class="body">
+    <nav class="navbar navbar-light data-mdb-theme=light">
+        <div class="container">
+            <a class="navbar-brand" href="/"><img
+                    src="https://assets.cdn.personio.de/logos/25466/social/c98a16e4c2751eee454be56dbea79e4b.png"
+                    class="height-auto" alt="logo"></a>
+        </div>
+    </nav>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-dismissible {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% else %}{{ message.tags }}{% endif %}{% endif %}"
+        role="alert">
+        <strong>{{message}}</strong>
+        <button type="button" class="btn-close" aria-label="Close"
+            onclick="this.parentElement.style.display='none';"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% block content %}
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <strong>Error!</strong> Please correct the following errors:
+        <ul>
+            {% for field, error in form.errors.items %}
+            <li>{{ field|title }}: {{ error|striptags }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% endblock %}
+    </div>
+    </div>
+</body>
+
+</html>
